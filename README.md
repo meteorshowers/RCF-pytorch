@@ -37,7 +37,7 @@ Install <a href="https://pytorch.org/">pytorch</a>. The code is tested under 0.4
 
 To train a HED model on BSDS500:
 
-        python train_hed.py
+        python train_RCF.py
 
 If you have multiple GPUs on your machine, you can also run the multi-GPU version training:
 
