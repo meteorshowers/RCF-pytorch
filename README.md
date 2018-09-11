@@ -1,42 +1,30 @@
-# RCF-pytorch
-A version of edge detection with RCF model in pytorch
-### HED-pytorch: Holistically-Nested Edge Detection
-Thanks to <a href="https://github.com/zeakey">zeakey's</a> help.
+### Richer Convolutional Features for Edge Detection
+Thanks to <a href="https://github.com/yun-liu">yun-liu's</a> help.
 Created by XuanyiLi, if you have any problem in using it, please contact:xuanyili.edu@gmail.com.
-The best result of my pytorch model is 0.772 ODS F-score now.
+The best result of my pytorch model is *** ODS F-score now.
 #### my model result
 the following are the side outputs and the prediction example
-SGD no tunelr 1e-8:
-![prediction example](https://github.com/meteorshowers/hed-pytorch/blob/master/doc/326025-sgd-notunelr.jpg)
 Adam no tunelr 1e-4:
 ![prediction example](https://github.com/meteorshowers/hed-pytorch/blob/master/doc/326025-adam-notunelr-1e-4.jpg)
 
 ### Citation
 If you find our work useful in your research, please consider citing:
 
-        @InProceedings{xie15hed,
-        author = {"Xie, Saining and Tu, Zhuowen"},
-        Title = {Holistically-Nested Edge Detection},
-        Booktitle = "Proceedings of IEEE International Conference on Computer Vision",
-        Year  = {2015},
+        @inproceedings{liu2017richer,
+        title={Richer Convolutional Features for Edge Detection},
+        author={Liu, Yun and Cheng, Ming-Ming and Hu, Xiaowei and Wang, Kai and Bai, Xiang},
+        journal={Proceedings of the IEEE conference on computer vision and pattern recognition},
+        year={2017}
         }
 
 ### Introduction
-I implement the edge detection model according to the <a href="https://github.com/s9xie/hed">HED</a>  model in pytorch. 
+I implement the edge detection model according to the <a href="https://github.com/yun-liu/rcf">RCF</a>  model in pytorch. 
 
 the result of my pytorch model will be released in the future
 
 | Method |ODS F-score on BSDS500 dataset |ODS F-score on NYU Depth dataset|
 |:---|:---:|:---:|
-| Ours(SGD-notunelr-nogradenven-le-8)|0.767| ***  |
-|ours(SGD-tunelr-gradenven-1e-6)| *** | *** |
-|ours(ADAM-notunelr-nogradenven-1e-4)| 0.758(epoch1) 0.768(epoch2) <br> 0.767(epoch3) 0.772(epoch4) 0.771(epoch5) <br> 0.771(epoch6) 0.769(epoch10) | *** |
-| ours-halfconv(ADAM-notunelr-nogradenven-1e-4) | 0.756(epoch9) | *** | *** |
-| ours-halfconv(ADAM-notunelr-nogradenven-1e-3) | 0.741(epoch9) | *** | *** |
-|ours(ADAM-tunelr-nogradenven-1e-6)|0.766(epoch2) 0.768(epoch6) 0.768(epoch9)| *** |
-|ours(ADAM-tunelr-nogradeven-1e-6-init dsn to zeros)| 0.768(epoch6) 0.767(epoch9) | *** |
-|ours(ADAM-tunelr-nogradeven-1e-6)itersize20| 0.768(epoch6) 0.768（epoch9） | *** |
-| Reference[1]| 0.782    |   0.746  |
+| Reference[1]| 0.806  | ***  |
 
 
 ### Installation
@@ -72,6 +60,7 @@ Our code is released under MIT License (see LICENSE file for details).
 * Add a gpu version of edge-eval code to accelerate the evaluation process.
 
 ### Related Projects
-[1] <a href="https://github.com/s9xie/hed">HED</a> 
+[1] <a href="https://github.com/yun-liu/rcf">Richer Convolutional Features for Edge Detection</a> 
+[2] <a href="https://github.com/s9xie/hed">HED</a> 
 
-[2] <a href="https://github.com/zeakey/hed">HED</a> created by <a href="https://github.com/zeakey">zeakey's</a>
+[3] <a href="https://github.com/zeakey/hed">HED</a> created by <a href="https://github.com/zeakey">zeakey's</a>
