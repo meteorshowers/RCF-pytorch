@@ -13,7 +13,7 @@ import torch.nn.functional as F
 
 class RCF(nn.Module):
     def __init__(self):
-        super(HED, self).__init__()
+        super(RCF, self).__init__()
         #lr 1 2 decay 1 0
         self.conv1_1 = nn.Conv2d(3, 64, 3, padding=1)
         self.conv1_2 = nn.Conv2d(64, 64, 3, padding=1)

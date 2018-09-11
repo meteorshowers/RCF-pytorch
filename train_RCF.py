@@ -16,11 +16,11 @@ import torchvision.transforms as transforms
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-from data_loader import BSDSLoader
-from models import HED
+from data_loader import BSDS_RCFLoader
+from models import RCF
 from functions import  cross_entropy_loss_RCF
 from torch.utils.data import DataLoader, sampler
-from utils import Logger, Averagvalue, save_checkpoint, load_vgg16pretrain_half
+from utils import Logger, Averagvalue, save_checkpoint, load_vgg16pretrain
 from os.path import join, split, isdir, isfile, splitext, split, abspath, dirname
 
 parser = argparse.ArgumentParser(description='PyTorch Training')
@@ -66,8 +66,8 @@ print('***', args.lr)
 def main():
     args.cuda = True
     # dataset
-    train_dataset = BSDSLoader(root=args.dataset, split="train")
-    test_dataset = BSDSLoader(root=args.dataset, split="test")
+    train_dataset = BSDS_RCFLoader(root=args.dataset, split="train")
+    test_dataset = BSDS_RCFLoader(root=args.dataset, split="test")
     train_loader = DataLoader(
         train_dataset, batch_size=args.batch_size,
         num_workers=8, drop_last=True,shuffle=True)
@@ -80,10 +80,10 @@ def main():
     assert len(test_list) == len(test_loader), "%d vs %d" % (len(test_list), len(test_loader))
 
     # model
-    model = HED()
+    model = RCF()
     model.cuda()
     model.apply(weights_init)
-    load_vgg16pretrain_half(model)
+    load_vgg16pretrain(model)
     if args.resume:
         if isfile(args.resume): 
             print("=> loading checkpoint '{}'".format(args.resume))
