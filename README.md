@@ -24,6 +24,7 @@ the result of my pytorch model will be released in the future
 
 | Method |ODS F-score on BSDS500 dataset |ODS F-score on NYU Depth dataset|
 |:---|:---:|:---:|
+|ours| 0.764(epoch10) | *** |
 | Reference[1]| 0.806  | ***  |
 
 
