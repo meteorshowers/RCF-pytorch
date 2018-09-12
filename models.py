@@ -36,7 +36,7 @@ class RCF(nn.Module):
         self.relu = nn.ReLU()
         self.maxpool = nn.MaxPool2d(2, stride=2, ceil_mode=True)
 
-
+        #lr 0.1 0.2 decay 1 0
         self.conv1_1_down = nn.Conv2d(64, 21, 1, padding=0)
         self.conv1_2_down = nn.Conv2d(64, 21, 1, padding=0)
 
@@ -50,7 +50,7 @@ class RCF(nn.Module):
         self.conv4_1_down = nn.Conv2d(512, 21, 1, padding=0)
         self.conv4_2_down = nn.Conv2d(512, 21, 1, padding=0)
         self.conv4_3_down = nn.Conv2d(512, 21, 1, padding=0)
-        #lr 100 200 decay 1 0
+        
         self.conv5_1_down = nn.Conv2d(512, 21, 1, padding=0)
         self.conv5_2_down = nn.Conv2d(512, 21, 1, padding=0)
         self.conv5_3_down = nn.Conv2d(512, 21, 1, padding=0)
@@ -120,11 +120,17 @@ class RCF(nn.Module):
         upsample4 = torch.nn.functional.conv_transpose2d(so4, weight_deconv4, stride=8)
         upsample5 = torch.nn.functional.conv_transpose2d(so5, weight_deconv5, stride=16)
 
-        so1 = crop(so1, img_H, img_W)
-        so2 = crop(upsample2, img_H, img_W)
-        so3 = crop(upsample3, img_H, img_W)
-        so4 = crop(upsample4, img_H, img_W)
-        so5 = crop(upsample5, img_H, img_W)
+        # so1 = crop(so1, img_H, img_W)
+        # so2 = crop(upsample2, img_H, img_W)
+        # so3 = crop(upsample3, img_H, img_W)
+        # so4 = crop(upsample4, img_H, img_W)
+        # so5 = crop(upsample5, img_H, img_W)
+
+        so1 = crop_caffe(0, so1, img_H, img_W)
+        so2 = crop_caffe(1, upsample2, img_H, img_W)
+        so3 = crop_caffe(2, upsample3, img_H, img_W)
+        so4 = crop_caffe(4, upsample4, img_H, img_W)
+        so5 = crop_caffe(8, upsample5, img_H, img_W)
 
         fusecat = torch.cat((so1, so2, so3, so4, so5), dim=1)
         fuse = self.new_score_weighting(fusecat)
@@ -137,6 +143,13 @@ def crop(variable, th, tw):
         h, w = variable.shape[2], variable.shape[3]
         x1 = int(round((w - tw) / 2.))
         y1 = int(round((h - th) / 2.))
+        return variable[:, :, y1 : y1 + th, x1 : x1 + tw]
+
+
+def crop_caffe(location, variable, th, tw):
+        h, w = variable.shape[2], variable.shape[3]
+        x1 = int(location)
+        y1 = int(location)
         return variable[:, :, y1 : y1 + th, x1 : x1 + tw]
 
 # make a bilinear interpolation kernel

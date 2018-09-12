@@ -27,7 +27,7 @@ parser = argparse.ArgumentParser(description='PyTorch Training')
 parser.add_argument('--batch_size', default=1, type=int, metavar='BT',
                     help='batch size')
 # =============== optimizer
-parser.add_argument('--lr', '--learning_rate', default=1e-4, type=float,
+parser.add_argument('--lr', '--learning_rate', default=1e-6, type=float,
                     metavar='LR', help='initial learning rate')
 parser.add_argument('--momentum', default=0.9, type=float, metavar='M',
                     help='momentum')
@@ -95,45 +95,63 @@ def main():
             print("=> no checkpoint found at '{}'".format(args.resume))
     
     #tune lr
-    # net_param = {}
-    # net_param['conv5.weight'] = []
-    # net_param['conv5.bias'] = []
-    # net_param['conv1-4.weight'] = []
-    # net_param['conv1-4.bias'] = []
-    # net_param['score_dsn.weight'] = []
-    # net_param['score_dsn.bias'] = []
-    # net_param['new_score_weighting.weight'] = []
-    # net_param['new_score_weighting.bias'] = []
-    # for name, p in model.named_parameters():
-    #     if 'conv5' and 'weight'in name:
-    #         net_param['conv5.weight'].append(p)
-    #     elif 'conv5' and 'bias'in name:
-    #         net_param['conv5.bias'].append(p)
-    #     elif 'conv' and 'weight' in name:
-    #         net_param['conv1-4.weight'].append(p)
-    #     elif 'conv' and 'bias' in name:
-    #         net_param['conv1-4.bias'].append(p)
-    #     elif 'score_dsn' and 'weight' in name:
-    #         net_param['score_dsn.weight'].append(p)
-    #     elif 'score_dsn' and 'bias' in name:
-    #         net_param['score_dsn.bias'].append(p)
-    #     elif 'new' and 'weight' in name:
-    #         net_param['new_score_weighting.weight'].append(p)
-    #     elif 'new' and 'bias' in name:
-    #         net_param['new_score_weighting.bias'].append(p)
+    net_param = {}
+    net_param['conv5.weight'] = []
+    net_param['conv5.bias'] = []
+    net_param['conv1-4.weight'] = []
+    net_param['conv1-4.bias'] = []
+    net_param['score_dsn.weight'] = []
+    net_param['score_dsn.bias'] = []
+    net_param['new_score_weighting.weight'] = []
+    net_param['new_score_weighting.bias'] = []
+    net_param['conv_down.weight'] = []
+    net_param['conv_down.bias'] = []
+    for name, p in model.named_parameters():
+        if 'down' and 'weight' in name:
+            net_param['conv_down.weight'].append(p)
+        elif 'down' and 'bias' in name:
+            net_param['conv_down.bias'].append(p)
+        elif 'conv5' and 'weight'in name:
+            net_param['conv5.weight'].append(p)
+        elif 'conv5' and 'bias'in name:
+            net_param['conv5.bias'].append(p)
+        elif 'conv' and 'weight' in name:
+            net_param['conv1-4.weight'].append(p)
+        elif 'conv' and 'bias' in name:
+            net_param['conv1-4.bias'].append(p)
+        elif 'score_dsn' and 'weight' in name:
+            net_param['score_dsn.weight'].append(p)
+        elif 'score_dsn' and 'bias' in name:
+            net_param['score_dsn.bias'].append(p)
+        elif 'new' and 'weight' in name:
+            net_param['new_score_weighting.weight'].append(p)
+        elif 'new' and 'bias' in name:
+            net_param['new_score_weighting.bias'].append(p)
 
-    # optimizer = torch.optim.Adam([{'params': net_param['conv5.weight'], 'lr':args.lr*100, 'weight_decay': args.weight_decay},
-    #                                 {'params': net_param['conv5.bias'], 'lr':args.lr*200, 'weight_decay': 0},
-    #                                 {'params': net_param['conv1-4.weight'], 'lr':args.lr*1, 'weight_decay': args.weight_decay},
-    #                                 {'params': net_param['conv1-4.bias'], 'lr':args.lr*2, 'weight_decay': 0},
-    #                                 {'params': net_param['score_dsn.weight'], 'lr':args.lr*0.01, 'weight_decay': args.weight_decay},
-    #                                 {'params': net_param['score_dsn.bias'], 'lr':args.lr*0.02, 'weight_decay': 0},
-    #                                 {'params': net_param['new_score_weighting.weight'], 'lr':args.lr*0.001, 'weight_decay': args.weight_decay},
-    #                                 {'params': net_param['new_score_weighting.bias'], 'lr':args.lr*0.002, 'weight_decay': 0}], lr=args.lr,  weight_decay=args.weight_decay)
-     
+    optimizer = torch.optim.SGD([  {'params': net_param['conv_down.weight'], 'lr':args.lr*0.1, 'weight_decay': args.weight_decay},
+                                    {'params': net_param['conv_down.bias'], 'lr':args.lr*0.2, 'weight_decay': 0},
+                                    {'params': net_param['conv5.weight'], 'lr':args.lr*100, 'weight_decay': args.weight_decay},
+                                    {'params': net_param['conv5.bias'], 'lr':args.lr*200, 'weight_decay': 0},
+                                    {'params': net_param['conv1-4.weight'], 'lr':args.lr*1, 'weight_decay': args.weight_decay},
+                                    {'params': net_param['conv1-4.bias'], 'lr':args.lr*2, 'weight_decay': 0},
+                                    {'params': net_param['score_dsn.weight'], 'lr':args.lr*0.01, 'weight_decay': args.weight_decay},
+                                    {'params': net_param['score_dsn.bias'], 'lr':args.lr*0.02, 'weight_decay': 0},
+                                    {'params': net_param['new_score_weighting.weight'], 'lr':args.lr*0.001, 'weight_decay': args.weight_decay},
+                                    {'params': net_param['new_score_weighting.bias'], 'lr':args.lr*0.002, 'weight_decay': 0}], lr=args.lr, momentum=args.momentum, weight_decay=args.weight_decay)
+    # optimizer = torch.optim.Adam([  {'params': net_param['conv_down.weight'], 'lr':args.lr*0.1, 'weight_decay': args.weight_decay},
+    #                             {'params': net_param['conv_down.bias'], 'lr':args.lr*0.2, 'weight_decay': 0},
+    #                             {'params': net_param['conv5.weight'], 'lr':args.lr*100, 'weight_decay': args.weight_decay},
+    #                             {'params': net_param['conv5.bias'], 'lr':args.lr*200, 'weight_decay': 0},
+    #                             {'params': net_param['conv1-4.weight'], 'lr':args.lr*1, 'weight_decay': args.weight_decay},
+    #                             {'params': net_param['conv1-4.bias'], 'lr':args.lr*2, 'weight_decay': 0},
+    #                             {'params': net_param['score_dsn.weight'], 'lr':args.lr*0.01, 'weight_decay': args.weight_decay},
+    #                             {'params': net_param['score_dsn.bias'], 'lr':args.lr*0.02, 'weight_decay': 0},
+    #                             {'params': net_param['new_score_weighting.weight'], 'lr':args.lr*0.001, 'weight_decay': args.weight_decay},
+    #                             {'params': net_param['new_score_weighting.bias'], 'lr':args.lr*0.002, 'weight_decay': 0}], lr=args.lr, weight_decay=args.weight_decay)
+    
     # optimizer
     #optimizer = torch.optim.SGD(model.parameters(), lr = args.lr, momentum=args.momentum, weight_decay=args.weight_decay)
-    optimizer = torch.optim.Adam(model.parameters(), lr = args.lr, weight_decay=args.weight_decay)
+    #optimizer = torch.optim.Adam(model.parameters(), lr = args.lr, weight_decay=args.weight_decay)
     scheduler = lr_scheduler.StepLR(optimizer, step_size=args.stepsize, gamma=args.gamma)
 
     # log
@@ -184,6 +202,7 @@ def train(train_loader, model, optimizer, epoch, save_dir):
         for o in outputs:
             loss = loss + cross_entropy_loss_RCF(o, label)
         counter += 1
+        loss = loss / args.itersize
         loss.backward()
         if counter == args.itersize:
             optimizer.step()
