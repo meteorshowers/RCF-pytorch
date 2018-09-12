@@ -26,7 +26,7 @@ the result of my pytorch model will be released in the future
 |:---|:---:|:---:|
 |ours(adam1e-4)| 0.764(epoch10) | *** |
 |ours(adam1e-4-tunelr-caffecrop)| 0.786(epoch10) | *** |
-| Reference[1]| 0.806  | ***  |
+| Reference[1]| 0.806(0.798)  | ***  |
 
 
 ### Installation
