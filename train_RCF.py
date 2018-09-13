@@ -123,10 +123,10 @@ def main():
             net_param['score_dsn.weight'].append(p)
         elif 'score_dsn' and 'bias' in name:
             net_param['score_dsn.bias'].append(p)
-        elif 'new' and 'weight' in name:
-            net_param['new_score_weighting.weight'].append(p)
-        elif 'new' and 'bias' in name:
+        elif 'new_score_weighting' and 'bias' in name:
             net_param['new_score_weighting.bias'].append(p)
+        elif 'new_score_weighting' and 'weight' in name:
+            net_param['new_score_weighting.weight'].append(p)
 
     optimizer = torch.optim.SGD([  {'params': net_param['conv_down.weight'], 'lr':args.lr*0.1, 'weight_decay': args.weight_decay},
                                     {'params': net_param['conv_down.bias'], 'lr':args.lr*0.2, 'weight_decay': 0},
