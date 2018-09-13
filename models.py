@@ -88,7 +88,7 @@ class RCF(nn.Module):
         self.score_dsn4 = nn.Conv2d(21, 1, 1)
         self.score_dsn5 = nn.Conv2d(21, 1, 1)
         #lr 0.001 0.002 decay 1 0
-        self.new_score_weighting = nn.Conv2d(5, 1, 1)
+        self.score_final = nn.Conv2d(5, 1, 1)
 
     def forward(self, x):
         # VGG
