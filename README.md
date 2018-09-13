@@ -27,6 +27,9 @@ the result of my pytorch model will be released in the future
 |ours(adam1e-4)| 0.764(epoch10) | *** |
 |ours(adam1e-4-tunelr-caffecrop)| 0.786(epoch6) 0.786(epoch10) | *** |
 |ours(sgd1e-6-tunelr-caffecrop)| 0.784(epoch10) | *** |
+|ours(sgd1e-6-tunelr-caffecrop-fixbalanceweightto1.1)| *** | *** |
+|ours(sgd5e-6-tunelr-caffecrop-fixbalanceweightto1.1)| *** | *** |
+|ours(sgd5e-6-tunelr-caffecrop-fixbalanceweightto1.1-adddilation)| *** | *** |
 | Reference[1]| 0.806(0.798)  | ***  |
 
 
