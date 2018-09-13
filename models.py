@@ -134,28 +134,35 @@ class RCF(nn.Module):
         so3 = self.score_dsn3(conv3_1_down + conv3_2_down + conv3_3_down)
         so4 = self.score_dsn4(conv4_1_down + conv4_2_down + conv4_3_down)
         so5 = self.score_dsn5(conv5_1_down + conv5_2_down + conv5_3_down)
+        ## transpose and crop way 
+        # weight_deconv2 =  make_bilinear_weights(4, 1).cuda()
+        # weight_deconv3 =  make_bilinear_weights(8, 1).cuda()
+        # weight_deconv4 =  make_bilinear_weights(16, 1).cuda()
+        # weight_deconv5 =  make_bilinear_weights(32, 1).cuda()
 
-        weight_deconv2 =  make_bilinear_weights(4, 1).cuda()
-        weight_deconv3 =  make_bilinear_weights(8, 1).cuda()
-        weight_deconv4 =  make_bilinear_weights(16, 1).cuda()
-        weight_deconv5 =  make_bilinear_weights(32, 1).cuda()
-
-        upsample2 = torch.nn.functional.conv_transpose2d(so2, weight_deconv2, stride=2)
-        upsample3 = torch.nn.functional.conv_transpose2d(so3, weight_deconv3, stride=4)
-        upsample4 = torch.nn.functional.conv_transpose2d(so4, weight_deconv4, stride=8)
-        upsample5 = torch.nn.functional.conv_transpose2d(so5, weight_deconv5, stride=16)
-
+        # upsample2 = torch.nn.functional.conv_transpose2d(so2, weight_deconv2, stride=2)
+        # upsample3 = torch.nn.functional.conv_transpose2d(so3, weight_deconv3, stride=4)
+        # upsample4 = torch.nn.functional.conv_transpose2d(so4, weight_deconv4, stride=8)
+        # upsample5 = torch.nn.functional.conv_transpose2d(so5, weight_deconv5, stride=16)
+        ### center crop
         # so1 = crop(so1, img_H, img_W)
         # so2 = crop(upsample2, img_H, img_W)
         # so3 = crop(upsample3, img_H, img_W)
         # so4 = crop(upsample4, img_H, img_W)
         # so5 = crop(upsample5, img_H, img_W)
+        ### crop way suggested by liu 
+        # so1 = crop_caffe(0, so1, img_H, img_W)
+        # so2 = crop_caffe(1, upsample2, img_H, img_W)
+        # so3 = crop_caffe(2, upsample3, img_H, img_W)
+        # so4 = crop_caffe(4, upsample4, img_H, img_W)
+        # so5 = crop_caffe(8, upsample5, img_H, img_W)
+        ## upsample way
+        so1 = F.upsample_bilinear(so1, size=(img_H,img_W))
+        so2 = F.upsample_bilinear(so2, size=(img_H,img_W))
+        so3 = F.upsample_bilinear(so3, size=(img_H,img_W))
+        so4 = F.upsample_bilinear(so4, size=(img_H,img_W))
+        so5 = F.upsample_bilinear(so5, size=(img_H,img_W))
 
-        so1 = crop_caffe(0, so1, img_H, img_W)
-        so2 = crop_caffe(1, upsample2, img_H, img_W)
-        so3 = crop_caffe(2, upsample3, img_H, img_W)
-        so4 = crop_caffe(4, upsample4, img_H, img_W)
-        so5 = crop_caffe(8, upsample5, img_H, img_W)
 
         fusecat = torch.cat((so1, so2, so3, so4, so5), dim=1)
         fuse = self.new_score_weighting(fusecat)
