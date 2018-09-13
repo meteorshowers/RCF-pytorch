@@ -165,7 +165,7 @@ class RCF(nn.Module):
 
 
         fusecat = torch.cat((so1, so2, so3, so4, so5), dim=1)
-        fuse = self.new_score_weighting(fusecat)
+        fuse = self.score_final(fusecat)
         results = [so1, so2, so3, so4, so5, fuse]
         results = [torch.sigmoid(r) for r in results]
         return results
