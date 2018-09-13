@@ -6,7 +6,7 @@ The best result of my pytorch model is *** ODS F-score now.
 the following are the side outputs and the prediction example
 Adam no tunelr 1e-4:
 ![prediction example](https://github.com/meteorshowers/RCF-pytorch/blob/master/doc/326025.jpg)
-#### When I add dilation, the world changes, Look Here! what's up 
+#### When I add dilation, the world changes, Look Here! what's up(TRAINING PROCESS! NOT RESULT) 
 ![train example](https://github.com/meteorshowers/RCF-pytorch/blob/master/doc/iter-450.jpg)
 
 ### Citation
