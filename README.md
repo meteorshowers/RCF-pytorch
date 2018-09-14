@@ -33,7 +33,7 @@ the result of my pytorch model will be released in the future
 |ours(sgd1e-6-tunelr-caffecrop-fixbalanceweightto1.1)| 0.784(epoch10) | *** |
 |ours(sgd5e-6-tunelr-caffecrop-fixbalanceweightto1.1)| 0.786(epoch10) | *** |
 |ours(sgd1e-6-tunelr-centercrop-fixbalanceweightto1.1-adddilation)| notest because sideput5 error pattern i think is kai's trans and upsample' error | *** |
-|ours(sgd1e-6-tunelr-centercrop-fixbalanceweightto1.1-adddilation-changetranscroptoupsample)| *** | *** |
+|ours(sgd1e-6-tunelr-centercrop-fixbalanceweightto1.1-adddilation-changetranscroptoupsample)| 0.780（epoch10） | *** |
 |ours(sgd5e-6-tunelr-centercrop-fixbalanceweightto1.1-adddilation)| error learing | *** |
 | Reference[1]| 0.806(0.798)  | ***  |
 
