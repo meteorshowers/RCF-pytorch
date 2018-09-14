@@ -8,7 +8,8 @@ Adam no tunelr 1e-4:
 ![prediction example](https://github.com/meteorshowers/RCF-pytorch/blob/master/doc/326025.jpg)
 #### When I add dilation, the world changes, Look Here! what's up(TRAINING PROCESS! NOT RESULT) 
 ![train example](https://github.com/meteorshowers/RCF-pytorch/blob/master/doc/iter-450.jpg)
-
+### When I add dilation, the world changes, Look Here! what's up(RESULT) 
+![prediction example](https://github.com/meteorshowers/RCF-pytorch/blob/master/doc/2018.jpg)
 ### Citation
 If you find our work useful in your research, please consider citing:
 
