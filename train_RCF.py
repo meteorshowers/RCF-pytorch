@@ -310,7 +310,7 @@ def train(train_loader, model, optimizer, epoch, save_dir):
             all_results = torch.zeros((len(outputs), 1, H, W))
             for j in range(len(outputs)):
                 all_results[j, 0, :, :] = outputs[j][0, 0, :, :]
-            torchvision.utils.save_image(all_results, join(save_dir, "iter-%d.jpg" % i))
+            torchvision.utils.save_image(1-all_results, join(save_dir, "iter-%d.jpg" % i))
         # save checkpoint
     save_checkpoint({
         'epoch': epoch,
