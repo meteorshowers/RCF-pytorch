@@ -32,6 +32,7 @@ the result of my pytorch model will be released in the future
 |ours(sgd1e-6-tunelr-caffecrop-fixbalanceweightto1.1)| 0.784(epoch10) | *** |
 |ours(sgd5e-6-tunelr-caffecrop-fixbalanceweightto1.1)| *** | *** |
 |ours(sgd1e-6-tunelr-centercrop-fixbalanceweightto1.1-adddilation)| *** | *** |
+|ours(sgd5e-6-tunelr-centercrop-fixbalanceweightto1.1-adddilation)| error learing | *** |
 | Reference[1]| 0.806(0.798)  | ***  |
 
 
