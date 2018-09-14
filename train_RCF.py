@@ -335,11 +335,9 @@ def test(model, test_loader, epoch, test_list, save_dir):
         for i in range(len(results)):
           results_all[i, 0, :, :] = results[i]
         filename = splitext(test_list[idx])[0]
-        torchvision.utils.save_image(results_all, join(save_dir, "%s.jpg" % filename))
-        result_view = Image.fromarray(((1-result) * 255).astype(np.uint8))
-        result = Image.fromarray(((1-result) * 255).astype(np.uint8))
+        torchvision.utils.save_image(1-results_all, join(save_dir, "%s.jpg" % filename))
+        result = Image.fromarray((result * 255).astype(np.uint8))
         result.save(join(save_dir, "%s.png" % filename))
-        result_view.save(join(save_dir, "%s.jpg" % filename))
         print("Running test [%d/%d]" % (idx + 1, len(test_loader)))
 
 def weights_init(m):
