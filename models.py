@@ -129,23 +129,23 @@ class RCF(nn.Module):
         conv5_2_down = self.conv5_2_down(conv5_2)
         conv5_3_down = self.conv5_3_down(conv5_3)
 
-        so1 = self.score_dsn1(conv1_1_down + conv1_2_down)
-        so2 = self.score_dsn2(conv2_1_down + conv2_2_down)
-        so3 = self.score_dsn3(conv3_1_down + conv3_2_down + conv3_3_down)
-        so4 = self.score_dsn4(conv4_1_down + conv4_2_down + conv4_3_down)
-        so5 = self.score_dsn5(conv5_1_down + conv5_2_down + conv5_3_down)
+        so1_out = self.score_dsn1(conv1_1_down + conv1_2_down)
+        so2_out = self.score_dsn2(conv2_1_down + conv2_2_down)
+        so3_out = self.score_dsn3(conv3_1_down + conv3_2_down + conv3_3_down)
+        so4_out = self.score_dsn4(conv4_1_down + conv4_2_down + conv4_3_down)
+        so5_out = self.score_dsn5(conv5_1_down + conv5_2_down + conv5_3_down)
         ## transpose and crop way 
         weight_deconv2 =  make_bilinear_weights(4, 1).cuda()
         weight_deconv3 =  make_bilinear_weights(8, 1).cuda()
         weight_deconv4 =  make_bilinear_weights(16, 1).cuda()
         weight_deconv5 =  make_bilinear_weights(32, 1).cuda()
 
-        upsample2 = torch.nn.functional.conv_transpose2d(so2, weight_deconv2, stride=2)
-        upsample3 = torch.nn.functional.conv_transpose2d(so3, weight_deconv3, stride=4)
-        upsample4 = torch.nn.functional.conv_transpose2d(so4, weight_deconv4, stride=8)
-        upsample5 = torch.nn.functional.conv_transpose2d(so5, weight_deconv5, stride=8) # dialtion so pool4 stride=1 so change stride from 16 to  8
+        upsample2 = torch.nn.functional.conv_transpose2d(so2_out, weight_deconv2, stride=2)
+        upsample3 = torch.nn.functional.conv_transpose2d(so3_out, weight_deconv3, stride=4)
+        upsample4 = torch.nn.functional.conv_transpose2d(so4_out, weight_deconv4, stride=8)
+        upsample5 = torch.nn.functional.conv_transpose2d(so5_out, weight_deconv5, stride=8)
         ### center crop
-        so1 = crop(so1, img_H, img_W)
+        so1 = crop(so1_out, img_H, img_W)
         so2 = crop(upsample2, img_H, img_W)
         so3 = crop(upsample3, img_H, img_W)
         so4 = crop(upsample4, img_H, img_W)
@@ -162,7 +162,6 @@ class RCF(nn.Module):
         # so3 = F.upsample_bilinear(so3, size=(img_H,img_W))
         # so4 = F.upsample_bilinear(so4, size=(img_H,img_W))
         # so5 = F.upsample_bilinear(so5, size=(img_H,img_W))
-
 
         fusecat = torch.cat((so1, so2, so3, so4, so5), dim=1)
         fuse = self.score_final(fusecat)
