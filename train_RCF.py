@@ -188,8 +188,8 @@ def main():
     for epoch in range(args.start_epoch, args.maxepoch):
         if epoch == 0:
             print("Performing initial testing...")
-            # test(model, test_loader, epoch=epoch, test_list=test_list,
-            #      save_dir = join(TMP_DIR, 'initial-testing-record'))
+            multiscale_test(model, test_loader, epoch=epoch, test_list=test_list,
+                 save_dir = join(TMP_DIR, 'initial-testing-record'))
 
         tr_avg_loss, tr_detail_loss = train(
             train_loader, model, optimizer, epoch,
@@ -280,24 +280,27 @@ def test(model, test_loader, epoch, test_list, save_dir):
         result = Image.fromarray((result * 255).astype(np.uint8))
         result.save(join(save_dir, "%s.png" % filename))
         print("Running test [%d/%d]" % (idx + 1, len(test_loader)))
-
+# torch.nn.functional.upsample(input, size=None, scale_factor=None, mode='nearest', align_corners=None)
 def multiscale_test(model, test_loader, epoch, test_list, save_dir):
-    scale = [0.5, 1, 1.5]
     model.eval()
     if not isdir(save_dir):
         os.makedirs(save_dir)
+    scale = [0.5, 1, 1.5]
     for idx, image in enumerate(test_loader):
         image = image.cuda()
         _, _, H, W = image.shape
-        results = model(image)
-        result = torch.squeeze(results[-1].detach()).cpu().numpy()
-        results_all = torch.zeros((len(results), 1, H, W))
-        for i in range(len(results)):
-          results_all[i, 0, :, :] = results[i]
+        multi_fuse = torch.zeros(H, W)
+        for k in range(0, len(scale)):
+            im_ = F.upsample(image, scale_factor=scale[k], mode='linear')
+            results = model(im_)
+            result_unsize = torch.squeeze(results[-1].detach()).cpu().numpy()
+            result = F.upsample(result_unsize, size=[H,W], mode='linear') 
+            multi_fuse += result
         filename = splitext(test_list[idx])[0]
-        torchvision.utils.save_image(1-results_all, join(save_dir, "%s.jpg" % filename))
-        result = Image.fromarray((result * 255).astype(np.uint8))
-        result.save(join(save_dir, "%s.png" % filename))
+        result_out = Image.fromarray(((1-multi_fuse) * 255).astype(np.uint8))
+        result_out.save(join(save_dir, "%s.jpg" % filename))
+        result_out_test = Image.fromarray((multi_fuse * 255).astype(np.uint8))
+        result_out_test.save(join(save_dir, "%s.png" % filename))
         print("Running test [%d/%d]" % (idx + 1, len(test_loader)))
 
 def weights_init(m):
