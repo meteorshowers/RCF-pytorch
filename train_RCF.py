@@ -302,6 +302,8 @@ def multiscale_test(model, test_loader, epoch, test_list, save_dir):
             fuse = cv2.resize(result, (W, H), interpolation=cv2.INTER_LINEAR)
             multi_fuse += fuse
         multi_fuse = multi_fuse / len(scale)
+        ### rescale trick suggested by jiangjiang
+        multi_fuse = (multi_fuse - min(multi_fuse)) / (max(multi_fuse) - min(multi_fuse))
         filename = splitext(test_list[idx])[0]
         result_out = Image.fromarray(((1-multi_fuse) * 255).astype(np.uint8))
         result_out.save(join(save_dir, "%s.jpg" % filename))
