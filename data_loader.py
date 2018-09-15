@@ -15,12 +15,12 @@ class BSDS_RCFLoader(data.Dataset):
     """
     Dataloader BSDS500
     """
-    def __init__(self, root='data/HED-BSDS', split='train', transform=False):
+    def __init__(self, root='data/HED-BSDS_PASCAL', split='train', transform=False):
         self.root = root
         self.split = split
         self.transform = transform
         if self.split == 'train':
-            self.filelist = join(self.root, 'train_pair.lst')
+            self.filelist = join(self.root, 'bsds_pascal_train_pair.lst')
         elif self.split == 'test':
             self.filelist = join(self.root, 'test.lst')
         else:
@@ -51,3 +51,43 @@ class BSDS_RCFLoader(data.Dataset):
             return img, lb
         else:
             return img
+# class BSDS_RCFLoader(data.Dataset):
+#     """
+#     Dataloader BSDS500
+#     """
+#     def __init__(self, root='data/HED-BSDS_PASCAL', split='train', transform=False):
+#         self.root = root
+#         self.split = split
+#         self.transform = transform
+#         if self.split == 'train':
+#             self.filelist = join(self.root, 'train_pair.lst')
+#         elif self.split == 'test':
+#             self.filelist = join(self.root, 'test.lst')
+#         else:
+#             raise ValueError("Invalid split type!")
+#         with open(self.filelist, 'r') as f:
+#             self.filelist = f.readlines()
+
+#     def __len__(self):
+#         return len(self.filelist)
+    
+#     def __getitem__(self, index):
+#         if self.split == "train":
+#             img_file, lb_file = self.filelist[index].split()
+#             lb = np.array(Image.open(join(self.root, lb_file)), dtype=np.float32)
+#             if lb.ndim == 3:
+#                 lb = np.squeeze(lb[:, :, 0])
+#             assert lb.ndim == 2
+#             lb = lb[np.newaxis, :, :]
+#             lb[lb == 0] = 0
+#             lb[np.logical_and(lb>0, lb<128)] = 2
+#             lb[lb >= 128] = 1
+            
+#         else:
+#             img_file = self.filelist[index].rstrip()
+#         img = np.array(Image.open(join(self.root, img_file)), dtype=np.float32)
+#         img = prepare_image(img)
+#         if self.split == "train":
+#             return img, lb
+#         else:
+#             return img
