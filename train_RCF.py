@@ -45,7 +45,7 @@ parser.add_argument('--itersize', default=10, type=int,
 # =============== misc
 parser.add_argument('--start_epoch', default=0, type=int, metavar='N',
                     help='manual epoch number (useful on restarts)')
-parser.add_argument('--print_freq', '-p', default=50, type=int,
+parser.add_argument('--print_freq', '-p', default=1000, type=int,
                     metavar='N', help='print frequency (default: 50)')
 parser.add_argument('--gpu', default='0', type=str,
                     help='GPU ID')
@@ -196,6 +196,8 @@ def main():
             train_loader, model, optimizer, epoch,
             save_dir = join(TMP_DIR, 'epoch-%d-training-record' % epoch))
         test(model, test_loader, epoch=epoch, test_list=test_list,
+            save_dir = join(TMP_DIR, 'epoch-%d-testing-record-view' % epoch))
+        multiscale_test(model, test_loader, epoch=epoch, test_list=test_list,
             save_dir = join(TMP_DIR, 'epoch-%d-testing-record' % epoch))
         log.flush() # write log
         # Save checkpoint
@@ -289,13 +291,15 @@ def multiscale_test(model, test_loader, epoch, test_list, save_dir):
     scale = [0.5, 1, 1.5]
     for idx, image in enumerate(test_loader):
         image = image.cuda()
+        image_in = torch.squeeze(image).detach().cpu().numpy().transpose((1,2,0))
         _, _, H, W = image.shape
         multi_fuse = np.zeros((H, W), np.float32)
         for k in range(0, len(scale)):
-            im_ = cv2.resize(torch.squeeze(image).detach().cpu().numpy(), None, fx=scale[k], fy=scale[k], interpolation=cv2.INTER_LINEAR)
-            results = model(torch.unsqueeze(torch.from_numpy(im_), 0))
+            im_ = cv2.resize(image_in, None, fx=scale[k], fy=scale[k], interpolation=cv2.INTER_LINEAR)
+            im_ = im_.transpose((2,0,1))
+            results = model(torch.unsqueeze(torch.from_numpy(im_).cuda(), 0))
             result = torch.squeeze(results[-1].detach()).cpu().numpy()
-            fuse = cv2.resize(result, (H, W), interpolation=cv2.INTER_LINEAR)
+            fuse = cv2.resize(result, (W, H), interpolation=cv2.INTER_LINEAR)
             multi_fuse += fuse
         multi_fuse = multi_fuse / len(scale)
         filename = splitext(test_list[idx])[0]
