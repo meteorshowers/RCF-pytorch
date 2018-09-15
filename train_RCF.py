@@ -3,6 +3,7 @@
 import os, sys
 import numpy as np
 from PIL import Image
+import cv2
 import shutil
 import argparse
 import time
@@ -289,15 +290,13 @@ def multiscale_test(model, test_loader, epoch, test_list, save_dir):
     for idx, image in enumerate(test_loader):
         image = image.cuda()
         _, _, H, W = image.shape
-        multi_fuse = torch.zeros(H, W)
+        multi_fuse = np.zeros(H, W, np.float32)
         for k in range(0, len(scale)):
-            im_ = F.upsample(image[0, :, :, :], scale_factor=scale[k], mode='linear')
-            results = model(torch.unsqueeze(im_, 0))
-            result = torch.squeeze(results[-1].detach(), 0)
-            print(result.shape)
-            # result = F.upsample(result, scale_factor=1 / scale[k], mode='linear') 
-            result = F.upsample_bilinear(result, size=(H, W))
-            multi_fuse += result[0, :, :]
+            im_ = cv2.resize(torch.squeese(image).detach().cpu().numpy(), None, fx=scale[k], fy=scale[k], interpolation=cv2.INTER_LINEAR)
+            results = model(torch.unsqueeze(torch.from_numpy(im_), 0))
+            result = torch.squeeze(results[-1].detach()).cpu().numpy()
+            fuse = cv2.resize(result, (H, W), interpolation=cv2.INTER_LINEAR)
+            multi_fuse += fuse
         multi_fuse = (multi_fuse / len(scale)).cpu().numpy()
         filename = splitext(test_list[idx])[0]
         result_out = Image.fromarray(((1-multi_fuse) * 255).astype(np.uint8))
