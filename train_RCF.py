@@ -37,7 +37,7 @@ parser.add_argument('--stepsize', default=3, type=int,
                     metavar='SS', help='learning rate step size')
 parser.add_argument('--gamma', '--gm', default=0.1, type=float,
                     help='learning rate decay parameter: Gamma')
-parser.add_argument('--maxepoch', default=10, type=int, metavar='N',
+parser.add_argument('--maxepoch', default=30, type=int, metavar='N',
                     help='number of total epochs to run')
 parser.add_argument('--itersize', default=10, type=int,
                     metavar='IS', help='iter size')
@@ -52,7 +52,7 @@ parser.add_argument('--resume', default='', type=str, metavar='PATH',
                     help='path to latest checkpoint (default: none)')
 parser.add_argument('--tmp', help='tmp folder', default='tmp/RCF')
 # ================ dataset
-parser.add_argument('--dataset', help='root folder of dataset', default='data/HED-BSDS')
+parser.add_argument('--dataset', help='root folder of dataset', default='data/HED-BSDS_PASCAL')
 args = parser.parse_args()
 
 os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"   # see issue #152
@@ -74,7 +74,7 @@ def main():
     test_loader = DataLoader(
         test_dataset, batch_size=args.batch_size,
         num_workers=8, drop_last=True,shuffle=False)
-    with open('data/HED-BSDS/test.lst', 'r') as f:
+    with open('data/HED-BSDS_PASCAL/test.lst', 'r') as f:
         test_list = f.readlines()
     test_list = [split(i.rstrip())[1] for i in test_list]
     assert len(test_list) == len(test_loader), "%d vs %d" % (len(test_list), len(test_loader))
@@ -188,8 +188,8 @@ def main():
     for epoch in range(args.start_epoch, args.maxepoch):
         if epoch == 0:
             print("Performing initial testing...")
-            test(model, test_loader, epoch=epoch, test_list=test_list,
-                 save_dir = join(TMP_DIR, 'initial-testing-record'))
+            # test(model, test_loader, epoch=epoch, test_list=test_list,
+            #      save_dir = join(TMP_DIR, 'initial-testing-record'))
 
         tr_avg_loss, tr_detail_loss = train(
             train_loader, model, optimizer, epoch,
@@ -247,7 +247,8 @@ def train(train_loader, model, optimizer, epoch, save_dir):
                    'Loss {loss.val:f} (avg:{loss.avg:f}) '.format(
                        loss=losses)
             print(info)
-            outputs.append(label)
+            label_out = torch.eq(label, 1).float()
+            outputs.append(label_out)
             _, _, H, W = outputs[0].shape
             all_results = torch.zeros((len(outputs), 1, H, W))
             for j in range(len(outputs)):
@@ -268,8 +269,25 @@ def test(model, test_loader, epoch, test_list, save_dir):
         os.makedirs(save_dir)
     for idx, image in enumerate(test_loader):
         image = image.cuda()
-        # rescale image to [0, 255] and then substract the mean
-        # https://github.com/pytorch/vision/blob/c74b79c83fc99d0b163d8381f7aa1296e4cb23d0/torchvision/transforms/functional.py#L51
+        _, _, H, W = image.shape
+        results = model(image)
+        result = torch.squeeze(results[-1].detach()).cpu().numpy()
+        results_all = torch.zeros((len(results), 1, H, W))
+        for i in range(len(results)):
+          results_all[i, 0, :, :] = results[i]
+        filename = splitext(test_list[idx])[0]
+        torchvision.utils.save_image(1-results_all, join(save_dir, "%s.jpg" % filename))
+        result = Image.fromarray((result * 255).astype(np.uint8))
+        result.save(join(save_dir, "%s.png" % filename))
+        print("Running test [%d/%d]" % (idx + 1, len(test_loader)))
+
+def multiscale_test(model, test_loader, epoch, test_list, save_dir):
+    scale = [0.5, 1, 1.5]
+    model.eval()
+    if not isdir(save_dir):
+        os.makedirs(save_dir)
+    for idx, image in enumerate(test_loader):
+        image = image.cuda()
         _, _, H, W = image.shape
         results = model(image)
         result = torch.squeeze(results[-1].detach()).cpu().numpy()
