@@ -292,7 +292,7 @@ def multiscale_test(model, test_loader, epoch, test_list, save_dir):
         _, _, H, W = image.shape
         multi_fuse = np.zeros((H, W), np.float32)
         for k in range(0, len(scale)):
-            im_ = cv2.resize(torch.squeese(image).detach().cpu().numpy(), None, fx=scale[k], fy=scale[k], interpolation=cv2.INTER_LINEAR)
+            im_ = cv2.resize(torch.squeeze(image).detach().cpu().numpy(), None, fx=scale[k], fy=scale[k], interpolation=cv2.INTER_LINEAR)
             results = model(torch.unsqueeze(torch.from_numpy(im_), 0))
             result = torch.squeeze(results[-1].detach()).cpu().numpy()
             fuse = cv2.resize(result, (H, W), interpolation=cv2.INTER_LINEAR)
