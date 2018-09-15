@@ -290,7 +290,7 @@ def multiscale_test(model, test_loader, epoch, test_list, save_dir):
     for idx, image in enumerate(test_loader):
         image = image.cuda()
         _, _, H, W = image.shape
-        multi_fuse = np.zeros(H, W, np.float32)
+        multi_fuse = np.zeros((H, W), np.float32)
         for k in range(0, len(scale)):
             im_ = cv2.resize(torch.squeese(image).detach().cpu().numpy(), None, fx=scale[k], fy=scale[k], interpolation=cv2.INTER_LINEAR)
             results = model(torch.unsqueeze(torch.from_numpy(im_), 0))
