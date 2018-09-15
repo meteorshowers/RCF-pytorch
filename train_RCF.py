@@ -293,7 +293,9 @@ def multiscale_test(model, test_loader, epoch, test_list, save_dir):
         for k in range(0, len(scale)):
             im_ = F.upsample(image[0, :, :, :], scale_factor=scale[k], mode='linear')
             results = model(torch.unsqueeze(im_, 0))
-            result = F.upsample(torch.squeeze(results[-1].detach(), 0), size=[H,W], mode='linear') 
+            result = torch.squeeze(results[-1].detach(), 0)
+            print(result.shape)
+            result = F.upsample(result, size=[H,W], mode='linear') 
             multi_fuse += result[0, :, :]
         multi_fuse = (multi_fuse / len(scale)).cpu().numpy()
         filename = splitext(test_list[idx])[0]
