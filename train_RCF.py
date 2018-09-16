@@ -19,7 +19,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from data_loader import BSDS_RCFLoader
 from models import RCF
-from functions import  cross_entropy_loss_RCF， SGD
+from functions import  cross_entropy_loss_RCF, SGD
 from torch.utils.data import DataLoader, sampler
 from utils import Logger, Averagvalue, save_checkpoint, load_vgg16pretrain
 from os.path import join, split, isdir, isfile, splitext, split, abspath, dirname
