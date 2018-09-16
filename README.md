@@ -72,6 +72,8 @@ Our code is released under MIT License (see LICENSE file for details).
 * Add support for multi-gpu training for the edge detetion task.
 * Improve the performance to 0.806/0.811 in the original paper.
 * Add a gpu version of edge-eval code to accelerate the evaluation process.
+* Note the difference between PIL(Image) and opencv read. RCF(caffe) use opnecv in training and PIL in test.
+However, I use PIL all the time. this is different.
 
 ### Related Projects
 [1] <a href="https://github.com/yun-liu/rcf">Richer Convolutional Features for Edge Detection</a> 
