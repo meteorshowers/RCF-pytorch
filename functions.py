@@ -1,6 +1,6 @@
 import numpy as np
 import torch
-from .optimizer import Optimizer, required
+from torch.optim.optimizer import Optimizer, required
 # loss function
 
 def cross_entropy_loss_RCF(prediction, label):
