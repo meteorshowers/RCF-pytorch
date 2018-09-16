@@ -48,7 +48,7 @@ Install <a href="https://pytorch.org/">pytorch</a>. The code is tested under 0.4
 
 #### image edge detection
 
-To train a HED model on BSDS500:
+To train a RCF model on BSDS500:
 
         python train_RCF.py
 
@@ -69,7 +69,7 @@ Our code is released under MIT License (see LICENSE file for details).
 
 ### To do 
 * Add support for multi-gpu training for the edge detetion task.
-* Improve the performance to 0.782 in the original paper.
+* Improve the performance to 0.806/0.811 in the original paper.
 * Add a gpu version of edge-eval code to accelerate the evaluation process.
 
 ### Related Projects
