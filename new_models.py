@@ -1,3 +1,7 @@
+import torch.nn as nn
+import math
+
+
 base = {'tun': [64, 64, 'M', 128, 128, 'M', 256, 256, 256, 'M', 512, 512, 512, 'M', 512, 512, 512, 'M'], 'tun_ex': [1024, 1024, 1024]}
 
 
@@ -23,8 +27,8 @@ def vgg(cfg, i, batch_norm=False):
             else:
                 layers += [conv2d, nn.ReLU(inplace=True)]
             in_channels = v
-    return layers
+    return nn.Sequential(*layers)
 
-    return TUN_bone(*extra_layer(vgg(base['tun'], 3), vgg(base['tun_ex'], 512)))
+    #return TUN_bone(*extra_layer(vgg(base['tun'], 3), vgg(base['tun_ex'], 512)))
 
     self.net_bone.base.load_state_dict(torch.load(self.config.vgg))
