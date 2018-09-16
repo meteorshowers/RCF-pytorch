@@ -38,6 +38,7 @@ the result of my pytorch model will be released in the future
 |ours(sgd5e-7-tunelr-centercrop-fixbalanceweightto1.1-adddilation-stridewith8)-MS-BSDS+pascal| 0.805（epoch7）0.804(epoch16) | *** |
 |ours(sgd5e-7-tunelr-centercrop-fixbalanceweightto1.1-adddilation-stridewith8)-MS-BSDS+pascal-result-rescale| 0.805（epoch7） | *** |
 |ours(sgd5e-7-tunelr-centercrop-fixbalanceweightto1.1-adddilation-stridewith8)-MS-BSDS+pascal-result-rescale-caffereadimgway| *** | *** |
+|ours(adam1e-5-tunelr-centercrop-fixbalanceweightto1.1-adddilation-stridewith8)-MS-BSDS+pascal-result-rescale-caffereadimgway| *** | *** |
 |ours(sgd5e-6-tunelr-centercrop-fixbalanceweightto1.1-adddilation)| error learing(because wrong stride with 16) | *** |
 | Reference[1]| 0.806(0.798)  | ***  |
 
