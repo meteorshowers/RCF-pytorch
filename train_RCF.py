@@ -19,7 +19,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from data_loader import BSDS_RCFLoader
 from models import RCF
-from functions import  cross_entropy_loss_RCF, SGD
+from functions import  cross_entropy_loss_RCF, SGD_caffe
 from torch.utils.data import DataLoader, sampler
 from utils import Logger, Averagvalue, save_checkpoint, load_vgg16pretrain
 from os.path import join, split, isdir, isfile, splitext, split, abspath, dirname
@@ -166,7 +166,7 @@ def main():
                 net_parameters_id['score_final.bias'] = []
             net_parameters_id['score_final.bias'].append(p)
 
-    optimizer = SGD([
+    optimizer = SGD_caffe([
             {'params': net_parameters_id['conv1-4.weight']      , 'lr': args.lr*1    , 'weight_decay': args.weight_decay},
             {'params': net_parameters_id['conv1-4.bias']        , 'lr': args.lr*2    , 'weight_decay': 0.},
             {'params': net_parameters_id['conv5.weight']        , 'lr': args.lr*100  , 'weight_decay': args.weight_decay},

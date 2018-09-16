@@ -16,7 +16,7 @@ def cross_entropy_loss_RCF(prediction, label):
             prediction.float(),label.float(), weight=mask, reduce=False)
     return torch.sum(cost)
 
-class SGD(Optimizer):
+class SGD_caffe(Optimizer):
     r"""Implements stochastic gradient descent (optionally with momentum).
 
     Nesterov momentum is based on the formula from
@@ -109,15 +109,15 @@ class SGD(Optimizer):
                     param_state = self.state[p]
                     if 'momentum_buffer' not in param_state:
                         buf = param_state['momentum_buffer'] = torch.zeros_like(p.data)
-                        buf.mul_(momentum).add_(d_p)
+                        buf.mul_(momentum).add_(group['lr'], d_p)
                     else:
                         buf = param_state['momentum_buffer']
-                        buf.mul_(momentum).add_(1 - dampening, d_p)
+                        buf.mul_(momentum).add_(group['lr'], d_p)
                     if nesterov:
                         d_p = d_p.add(momentum, buf)
                     else:
                         d_p = buf
 
-                p.data.add_(-group['lr'], d_p)
+                p.data.add_(-1, d_p)
 
         return loss
