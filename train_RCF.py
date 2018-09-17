@@ -180,6 +180,21 @@ def main():
         ], lr=args.lr, momentum=args.momentum, weight_decay=args.weight_decay)
     scheduler = lr_scheduler.StepLR(optimizer, step_size=args.stepsize, gamma=args.gamma)
 
+
+    # optimizer = torch.optim.Adam([
+    #         {'params': net_parameters_id['conv1-4.weight']      , 'lr': args.lr*1    , 'weight_decay': args.weight_decay},
+    #         {'params': net_parameters_id['conv1-4.bias']        , 'lr': args.lr*2    , 'weight_decay': 0.},
+    #         {'params': net_parameters_id['conv5.weight']        , 'lr': args.lr*100  , 'weight_decay': args.weight_decay},
+    #         {'params': net_parameters_id['conv5.bias']          , 'lr': args.lr*200  , 'weight_decay': 0.},
+    #         {'params': net_parameters_id['conv_down_1-5.weight'], 'lr': args.lr*0.1  , 'weight_decay': args.weight_decay},
+    #         {'params': net_parameters_id['conv_down_1-5.bias']  , 'lr': args.lr*0.2  , 'weight_decay': 0.},
+    #         {'params': net_parameters_id['score_dsn_1-5.weight'], 'lr': args.lr*0.01 , 'weight_decay': args.weight_decay},
+    #         {'params': net_parameters_id['score_dsn_1-5.bias']  , 'lr': args.lr*0.02 , 'weight_decay': 0.},
+    #         {'params': net_parameters_id['score_final.weight']  , 'lr': args.lr*0.001, 'weight_decay': args.weight_decay},
+    #         {'params': net_parameters_id['score_final.bias']    , 'lr': args.lr*0.002, 'weight_decay': 0.},
+    #     ], lr=args.lr, betas=(0.9, 0.99), weight_decay=args.weight_decay)
+    # scheduler = lr_scheduler.StepLR(optimizer, step_size=args.stepsize, gamma=args.gamma)
+    
     # log
     log = Logger(join(TMP_DIR, '%s-%d-log.txt' %('sgd',args.lr)))
     sys.stdout = log
@@ -303,7 +318,7 @@ def multiscale_test(model, test_loader, epoch, test_list, save_dir):
             multi_fuse += fuse
         multi_fuse = multi_fuse / len(scale)
         ### rescale trick suggested by jiangjiang
-        multi_fuse = (multi_fuse - multi_fuse.min()) / (multi_fuse.max() - multi_fuse.min())
+        # multi_fuse = (multi_fuse - multi_fuse.min()) / (multi_fuse.max() - multi_fuse.min())
         filename = splitext(test_list[idx])[0]
         result_out = Image.fromarray(((1-multi_fuse) * 255).astype(np.uint8))
         result_out.save(join(save_dir, "%s.jpg" % filename))
