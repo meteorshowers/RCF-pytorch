@@ -1,15 +1,10 @@
 ### Richer Convolutional Features for Edge Detection
 Thanks to <a href="https://github.com/yun-liu">yun-liu's</a> help.
 Created by XuanyiLi, if you have any problem in using it, please contact:xuanyili.edu@gmail.com.
-The best result of my pytorch model is *** ODS F-score now.
+The best result of my pytorch model is 0.808 ODS F-score now.
 #### my model result
 the following are the side outputs and the prediction example
-Adam no tunelr 1e-4:
 ![prediction example](https://github.com/meteorshowers/RCF-pytorch/blob/master/doc/326025.jpg)
-#### When I add dilation, the world changes, Look Here! what's up(TRAINING PROCESS! NOT RESULT) 
-![train example](https://github.com/meteorshowers/RCF-pytorch/blob/master/doc/iter-450.jpg)
-### When I add dilation, the world changes, Look Here! what's up(RESULT) 
-![prediction example](https://github.com/meteorshowers/RCF-pytorch/blob/master/doc/2018.jpg)
 ### Citation
 If you find our work useful in your research, please consider citing:
 
@@ -27,20 +22,8 @@ the result of my pytorch model will be released in the future
 
 | Method |ODS F-score on BSDS500 dataset |ODS F-score on NYU Depth dataset|
 |:---|:---:|:---:|
-|ours(adam1e-4)| 0.764(epoch10) | *** |
-|ours(adam1e-4-tunelr-caffecrop)| 0.786(epoch6) 0.786(epoch10) | *** |
-|ours(sgd1e-6-tunelr-caffecrop)| 0.784(epoch10) | *** |
-|ours(sgd1e-6-tunelr-caffecrop-fixbalanceweightto1.1)| 0.784(epoch10) | *** |
-|ours(sgd5e-6-tunelr-caffecrop-fixbalanceweightto1.1)| 0.786(epoch10) | *** |
-|ours(sgd1e-6-tunelr-centercrop-fixbalanceweightto1.1-adddilation)| notest because sideput5 error pattern i think is kai's trans and upsample' error | *** |
-|ours(sgd1e-6-tunelr-centercrop-fixbalanceweightto1.1-adddilation-changetranscroptoupsample)| 0.780（epoch10）(error way stride is wrong with 16) | *** |
-|ours(sgd1e-6-tunelr-centercrop-fixbalanceweightto1.1-adddilation-stridewith8)| 0.786（epoch9）| *** |
-|ours(sgd5e-7-tunelr-centercrop-fixbalanceweightto1.1-adddilation-stridewith8)-MS-BSDS+pascal| 0.805（epoch7）0.804(epoch12) 0.804(epoch16) | *** |
-|ours(sgd5e-7-tunelr-centercrop-fixbalanceweightto1.1-adddilation-stridewith8)-MS-BSDS+pascal-result-rescale| 0.805（epoch7） | *** |
-|ours(sgd5e-7-tunelr-centercrop-fixbalanceweightto1.1-adddilation-stridewith8)-MS-BSDS+pascal-result-rescale-caffereadimgway| *** | *** |
-|ours(adam1e-5-tunelr-centercrop-fixbalanceweightto1.1-adddilation-stridewith8)-MS-BSDS+pascal-result-rescale-caffereadimgway| 0.801(epoch(9)) | *** |
-|ours(sgd5e-6-tunelr-centercrop-fixbalanceweightto1.1-adddilation)| error learing(because wrong stride with 16) | *** |
-| Reference[1]| 0.806(0.798)  | ***  |
+|ours| 0.808 | *** |
+| Reference[1]| 0.811 | ***  |
 
 
 ### Installation
