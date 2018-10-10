@@ -14,7 +14,9 @@ If you find our work useful in your research, please consider citing:
         journal={Proceedings of the IEEE conference on computer vision and pattern recognition},
         year={2017}
         }
-
+### For you:😋
+this is the edge version of movie Titanic， for my love:
+![Titanic example](https://github.com/meteorshowers/RCF-pytorch/blob/master/doc/testw.gif)
 ### Introduction
 I implement the edge detection model according to the <a href="https://github.com/yun-liu/rcf">RCF</a>  model in pytorch. 
 
