@@ -8,12 +8,23 @@ the following are the side outputs and the prediction example
 ### Citation
 If you find our work useful in your research, please consider citing:
 
-        @inproceedings{liu2017richer,
-        title={Richer Convolutional Features for Edge Detection},
-        author={Liu, Yun and Cheng, Ming-Ming and Hu, Xiaowei and Wang, Kai and Bai, Xiang},
-        journal={Proceedings of the IEEE conference on computer vision and pattern recognition},
-        year={2017}
-        }
+@article{RcfEdgePami2019,
+  author = {Yun Liu and Ming-Ming Cheng and Xiaowei Hu and Jia-Wang Bian and Le Zhang and Xiang Bai and Jinhui Tang},
+  title = {Richer Convolutional Features for Edge Detection},
+  year  = {2019},
+  journal= {IEEE Trans. Pattern Anal. Mach. Intell.},
+  volume={}, 
+  number={}, 
+  pages={}, 
+  doi = {},
+}
+
+@inproceedings{RCFEdgeCVPR2017,
+  title={Richer Convolutional Features for Edge Detection},
+  author={Yun Liu and Ming-Ming Cheng, Xiaowei Hu and K Wang and X Bai},
+  booktitle={IEEE CVPR},
+  year={2017},
+}
 ### For you:😋
 this is the edge version of movie Titanic， for my love:
 ![Titanic example](https://github.com/meteorshowers/RCF-pytorch/blob/master/doc/testw.gif)
@@ -58,7 +69,8 @@ Our code is released under MIT License (see LICENSE file for details).
 ### To do 
 * Add support for multi-gpu training for the edge detetion task.
 * Improve the performance to 0.806/0.811 in the original paper.
-* Add a gpu version of edge-eval code to accelerate the evaluation process..
+* Add a gpu version of edge-eval code to accelerate the evaluation process.
+* Add pami version of RCF.
 
 ### Related Projects
 [1] <a href="https://github.com/yun-liu/rcf">Richer Convolutional Features for Edge Detection</a> 
