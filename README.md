@@ -71,7 +71,9 @@ Our code is released under MIT License (see LICENSE file for details).
 * Improve the performance to 0.806/0.811 in the original paper.
 * Add a gpu version of edge-eval code to accelerate the evaluation process.
 * Add pami version of RCF.
-
+### source：
+*  To download the pretrained model, please click https://drive.google.com/open?id=1TupHeoBKawrniDka0Hc64m3BG4OKG8nM
+(This pretrained model is not the best model, just for communicating)
 ### Related Projects
 [1] <a href="https://github.com/yun-liu/rcf">Richer Convolutional Features for Edge Detection</a> 
 
