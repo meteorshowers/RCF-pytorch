@@ -81,5 +81,5 @@ Our code is released under MIT License (see LICENSE file for details).
 
 [3] <a href="https://github.com/zeakey/hed">HED</a> created by <a href="https://github.com/zeakey">zeakey's</a>
 
-[4] <a href="https://github.com/godman2016/ContourNet">CNET</a>
+[4] <a href="https://github.com/godman2016/ContourNet">ContourNet</a>
 
