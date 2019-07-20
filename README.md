@@ -74,6 +74,7 @@ Our code is released under MIT License (see LICENSE file for details).
 ### source：
 *  To download the pretrained model, please click https://drive.google.com/open?id=1TupHeoBKawrniDka0Hc64m3BG4OKG8nM
 (This pretrained model is not the best model, just for communicating)
+*  To download the vgg16 pretrained model which is used for the backbone. please click https://drive.google.com/file/d/1lUhPKKj-BSOH7yQL0mOIavvrUbjydPp5/view?usp=sharing.
 ### Related Projects
 [1] <a href="https://github.com/yun-liu/rcf">Richer Convolutional Features for Edge Detection</a> 
 
