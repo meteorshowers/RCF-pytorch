@@ -25,7 +25,7 @@ If you find our work useful in your research, please consider citing:
   booktitle={IEEE CVPR},
   year={2017},
 }
-### online demo(update your own image):😋
+### online demo(upload your own image):😋
 <a href="http://mc.nankai.edu.cn/edge">online demo link</a> 
 
 ### For you:😋
