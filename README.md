@@ -27,7 +27,7 @@ If you find our work useful in your research, please consider citing:
 }
 ### For you:😋
 this is the edge version of movie Titanic， for my love:
-[1] <a href="https://www.youtube.com/channel/UC_6UOBTYzBzA6s0EZSeTh1g">youtube video link</a>  
+<a href="https://www.youtube.com/channel/UC_6UOBTYzBzA6s0EZSeTh1g">youtube video link</a> 
 ![Titanic example](https://github.com/meteorshowers/RCF-pytorch/blob/master/doc/testw.gif)
 ### Introduction
 I implement the edge detection model according to the <a href="https://github.com/yun-liu/rcf">RCF</a>  model in pytorch. 
