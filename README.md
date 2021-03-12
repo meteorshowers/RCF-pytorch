@@ -28,7 +28,7 @@ If you find our work useful in your research, please consider citing:
 ### online demo(upload your own image):😋
 <a href="http://mc.nankai.edu.cn/edge">online demo link</a> 
 
-### For you:😋
+### Video demo:😋
 this is the edge version of movie Titanic， for my love:
 <a href="https://www.youtube.com/channel/UC_6UOBTYzBzA6s0EZSeTh1g">youtube video link</a> 
 ![Titanic example](https://github.com/meteorshowers/RCF-pytorch/blob/master/doc/testw.gif)
