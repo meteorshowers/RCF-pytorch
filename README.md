@@ -55,10 +55,6 @@ To train a RCF model on BSDS500:
 
         python train_RCF.py
 
-If you have multiple GPUs on your machine, you can also run the multi-GPU version training:
-
-        CUDA_VISIBLE_DEVICES=0,1 python train_multi_gpu.py --num_gpus 2
-
 After training, to evaluate:
 
         python evaluate.py (for further work)
